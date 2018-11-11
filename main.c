@@ -46,9 +46,9 @@ static int hello_init(void) {
     person2->month = 2;
     person2->year = 1994;
     INIT_LIST_HEAD(&person2->list);  // List head is node in a list
-    list_add_tail(&person->list, &birthday_list);
-    list_add_tail(&person1->list, &birthday_list);
-    list_add_tail(&person2->list, &birthday_list);
+    list_add_tail(&person->list, &birthday_list);   // Add the first node
+    list_add_tail(&person1->list, &birthday_list);  // Add the second node
+    list_add_tail(&person2->list, &birthday_list);  // Add the third node
     list_for_each_entry(ptr, &birthday_list, list) {
         /* On each iteration ptr points to the next birthday struct*/
 //        printk(KERN_ALERT "%s", "Formatting and number of list test");
