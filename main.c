@@ -76,4 +76,4 @@ module_exit(hello_exit);
 
 MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("Simple Practice Module");
-MODULE_AUTHOR("SGG");
+MODULE_AUTHOR("Jun Yoo");
