@@ -28,31 +28,46 @@ static LIST_HEAD(birthday_list);
 
 
 static int hello_init(void) {
-    struct birthday *person;
+    struct birthday *person, *person1, *person2;
     struct birthday *ptr, *next;
     printk(KERN_ALERT "TEST: Hello World, this is Jun");
     person = kmalloc(sizeof(*person), GFP_KERNEL);  // GFP_KERNEL indicates routine kernel memory allocation
     person->day = 2;
     person->month = 8;
     person->year = 1995;
-    INIT_LIST_HEAD(&person->list);
+    person1 = kmalloc(sizeof(*person1), GFP_KERNEL);
+    person2 = kmalloc(sizeof(*person2), GFP_KERNEL);
+    INIT_LIST_HEAD(&person->list);  // List head is node in a list
+    person1->day = 9;
+    person1->month = 7;
+    person1->year = 1993;
+    INIT_LIST_HEAD(&person1->list);  // List head is node in a list
+    person2->day = 11;
+    person2->month = 2;
+    person2->year = 1994;
+    INIT_LIST_HEAD(&person2->list);  // List head is node in a list
     list_add_tail(&person->list, &birthday_list);
+    list_add_tail(&person1->list, &birthday_list);
+    list_add_tail(&person2->list, &birthday_list);
     list_for_each_entry(ptr, &birthday_list, list) {
         /* On each iteration ptr points to the next birthday struct*/
 //        printk(KERN_ALERT "%s", "Formatting and number of list test");
-        printk(KERN_ALERT "Looping Birthday: %d/%d/%d", ptr->month, ptr->day, ptr->year);
+        printk(KERN_ALERT "TEST LOOP: Birthday is %d/%d/%d", ptr->month, ptr->day, ptr->year);
     }
     list_for_each_entry_safe(ptr, next, &birthday_list, list) {
         /* On each iteration ptr points to the next birthday struct*/
+        printk(KERN_ALERT "TEST DELETING: Birthday %d/%d/%d", ptr->month, ptr->day, ptr->year);
         list_del(&ptr->list);
         kfree(ptr);
     }
-    return 0;
+    printk(KERN_ALERT "TEST: END_OF_INIT");
+    return 0;   // Success return code. Exit code is required for module entry point.
 }
 //static int 
 static void hello_exit(void) {
-    
     printk(KERN_ALERT "TEST: Good bye");
+    printk(KERN_ALERT "TEST: CLOSING");
+    // Module Exit point doesn't accept any return codes
 }
 
 module_init(hello_init);
